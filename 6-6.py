@@ -25,6 +25,7 @@ for word in excludes:
     del(counts[word])
 items = list(counts.items())
 items.sort(key=lambda x:x[1],reverse=True)
+print("{0:<10}{1:>5}".format("人物:","出现次数:"))
 for i in range(20):
     word,count = items[i]
     print("{0:<10}{1:>5}".format(word,count))
