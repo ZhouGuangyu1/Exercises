@@ -114,6 +114,7 @@ def music():
 
 
 root = Tk()
+root.attributes('-alpha', 0.85)
 
 sw = root.winfo_screenwidth()  #得到屏幕宽度
 sh = root.winfo_screenheight() #得到屏幕高度
