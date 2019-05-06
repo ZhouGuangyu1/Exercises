@@ -189,7 +189,7 @@ def shangmusic():
 
    i -= 1
 
-   path = r'C:\\Users\\ME\\Desktop\\songs\\' + song[i]
+   path = r'songs\\' + song[i]
 
    pygame.mixer.music.load(path)
    pygame.mixer.music.play()
@@ -210,7 +210,7 @@ def xiamusic():
 
    i += 1
 
-   path = r'C:\\Users\\ME\\Desktop\\songs\\' + song[i]
+   path = r'songs\\' + song[i]
 
    pygame.mixer.music.load(path)
    pygame.mixer.music.play()
@@ -246,7 +246,7 @@ pau = 'pause'
 
 # 音乐文件夹路径
 
-fp = r'C:\\Users\\ME\\Desktop\\songs\\'
+fp = r'songs\\'
 
 # 初始化空文件列表
 
