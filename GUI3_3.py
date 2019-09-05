@@ -9,6 +9,9 @@ import urllib
 import time
 import tkinter.font as tkFont
 import pygame
+if not os.path.exists('./songs'):
+   os.mkdir('./songs')
+
 
 
 
@@ -68,11 +71,10 @@ def music():
              if num > len(urls):
                  print('[Warning]:Only find %d songs...' % len(urls))
                  num = len(urls)
-             if not os.path.exists('./songs'):
-                 os.mkdir('./songs')
+
              for n in range(num):
                  print('正在下载 第%d 首歌...' % (n+1))
-                 
+
                  filepath = './songs/{}'.format(songname_keep[n].replace("\\", "").replace("/", "").replace(" ", "")+'_'+singer_keep[n].replace("\\", "").replace("/", "").replace(" ", "")+'.m4a')
                  urllib.request.urlretrieve(urls[n], filepath)
                  scale = 25
@@ -87,18 +89,18 @@ def music():
 
 
       if __name__ == '__main__':
-         
+
          titles = '【曲库来自QQ音乐】'
          print("{:-^30}".format(titles))
-         
+
          keyword = ("%s" % e1.get())
          songnum = ("%s" % e2.get())
          if keyword and songnum != "":
             try:
                if int(songnum) > 0:
-       
+
                   songnum = int(songnum)
-                
+
 
                   dl = Downloader()
                   dl.run(keyword, songnum)
@@ -106,33 +108,23 @@ def music():
                   print("你输入的数量不正确，请重新输入")
             except:
                print("你输入的数量不正确，请重新输入")
-                  
 
-            
+
+
          else:
             print("你输入的信息不全，请重新输入")
-            
-         
+
+
 
    except:
       print("抱歉，无法下载，可能是QQ音乐无版权")
 
 
-
-
-# 播放音乐
-
-def play():
-
-    
-   pygame.mixer.music.play()
-
-    
-
-
 # 暂停
 
 def pause():
+   global go
+   go = 0
 
    pygame.mixer.music.pause()
 
@@ -154,7 +146,7 @@ def qxpause():
 
 def up_vol():
 
-    
+
    global v
 
    v += 0.2
@@ -167,7 +159,7 @@ def up_vol():
 
 def down_vol():
 
-   global v  
+   global v
 
 
    v -= 0.2
@@ -178,44 +170,50 @@ def down_vol():
 
 # 上一曲
 
+
+
 def shangmusic():
+
    global i
-   if i == -1:
-      i = len(song)-1 
-
-      
-
-   
-
    i -= 1
+   if i < 0:
+      i = len(song)-1
 
-   path = r'songs\\' + song[i]
 
-   pygame.mixer.music.load(path)
-   pygame.mixer.music.play()
-   return i
-   
+   try:
 
+      path = r'songs\\' + song[i]
+
+      pygame.mixer.music.load(path)
+      pygame.mixer.music.play()
+      return i
+   except:
+      print("出错")
 
 
 # 下一曲
 
 def xiamusic():
    global i
+   i += 1
 
    if i > len(song)-1:
       i = 0
 
-      
 
-   i += 1
 
-   path = r'songs\\' + song[i]
 
-   pygame.mixer.music.load(path)
-   pygame.mixer.music.play()
-   return i
-  
+
+   try:
+
+      path = r'songs\\' + song[i]
+
+      pygame.mixer.music.load(path)
+      pygame.mixer.music.play()
+      return i
+   except:
+      print("出错")
+
 
 
 # 文件夹路径
@@ -230,22 +228,15 @@ def addr(fp):
 
     return filelist
 
-
-
 # 初始化音频
 
 pygame.mixer.init()
 
 # 初始化当前歌曲序列
 
-
-
-
-
 pau = 'pause'
 
 # 音乐文件夹路径
-
 fp = r'songs\\'
 
 # 初始化空文件列表
@@ -254,13 +245,23 @@ filelist = []
 
 # song = ['dang.mp3','feima.wav','qingchen.mp3']
 
+
 song = addr(fp)
+try:
 
-path = fp + song[i]
+   path = fp + song[i]
 
-pygame.mixer.music.load(path)
+   pygame.mixer.music.load(path)
+except:
+   print("文件夹检索有误")
 
 
+
+
+# 播放音乐
+
+def play1():
+    pygame.mixer.music.play()
 
 
 root = Tk()
@@ -296,17 +297,17 @@ e2.grid(row = 1,column = 1,padx = 10,pady = 5)
 
 def show():
    global keyword,songnum
-  
+
    music()
    e1.delete(0,END)
    e2.delete(0,END)
-   
-   
-   
-   
-   
 
-   
+
+
+
+
+
+
 Button(root,text="确认下载",width=10,bg="Light Sky Blue",font="华康少女字体",command=show)\
                .grid(row=3,column=0,sticky=W,padx = 10,pady=5)
 
@@ -314,7 +315,7 @@ Button(root,text="确认下载",width=10,bg="Light Sky Blue",font="华康少女�
 Button(root,text="退出",width=10,bg="Pale Violet Red1",font="华康少女字体",command=root.quit)\
                .grid(row=3,column=1,sticky=E,padx=10,pady=5)
 
-Button(root,text="播放",width=10,bg="lightgreen",font="华康少女字体",command=play)\
+Button(root,text="播放",width=10,bg="lightgreen",font="华康少女字体",command=play1)\
                .grid(row=35,column=0,sticky=W,padx=10,pady=20)
 Button(root,text="暂停",width=10,bg="lightgreen",font="华康少女字体",command=pause)\
                .grid(row=35,column=1,sticky=E,padx=10,pady=20)
@@ -333,31 +334,3 @@ Button(root,text="下一曲",width=10,bg="lightgreen",font="华康少女字体",
 
 
 mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
-   
-
-
